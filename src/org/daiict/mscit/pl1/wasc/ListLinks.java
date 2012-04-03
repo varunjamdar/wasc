@@ -6,7 +6,7 @@
  *
  * @author SYS
  */
-package org.daiict.mscit.PL1.WASC;
+package org.daiict.mscit.pl1.WASC;
 
 import org.daiict.mscit.pl1.wasc.db.DBConnection;
 import org.jsoup.Jsoup;

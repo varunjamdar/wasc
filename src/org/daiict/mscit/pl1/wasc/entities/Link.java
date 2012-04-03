@@ -15,7 +15,8 @@ public class Link {
     private String ParentURL;
     private int done;
 
-    public Link(String URL, String ParentURL, int done) {
+    public Link(int id, String URL, String ParentURL, int done) {
+        this.ID=id;
         this.URL = URL;
         this.ParentURL = ParentURL;
         this.done = done;

@@ -20,8 +20,8 @@ import java.io.IOException;
  * @author VJ
  */
 public class Crawler {
-
-    private String baseURL;
+    
+    private Link baseLink;
     private DAL dal;
 
     public Crawler() {
@@ -29,28 +29,50 @@ public class Crawler {
     }
 
     public String getBaseURL() {
-        return baseURL;
+        return baseLink.getURL();
     }
 
-    public void setBaseURL(String baseURL) {
-        this.baseURL = baseURL;
-        dal.persistLink(new Link(baseURL, "", 0));
+    public void setBaseURL(String URL) {
+        baseLink=new Link(dal.getNextURLID(), URL, "", 0);
+        dal.persistLink(baseLink);
     }
 
     public void crawl() {
-        crawl(baseURL);
+        crawl(baseLink);
     }
 
-    public void crawl(String URL) {
+    public void crawl(Link URL) {
         crawl(URL, -1);
     }
 
-    public void crawl(String URL, int depth) {
+    public void crawl(Link link, int depth) {
         if (depth < 0) {
             try {
-                Document doc = Jsoup.connect(URL).get();
+                if(link.getURL().contains((new String("orkut")).subSequence(0,4)))
+                    return;
+                if(link.getURL().contains((new String("facebook")).subSequence(0,4)))
+                    return;
+                if(link.getURL().contains((new String("twitter")).subSequence(0,4)))
+                    return;
                 
-            } catch (IOException ioe) {
+                Document doc = Jsoup.connect(link.getURL()).get();
+                Elements links = doc.select("a[href]");
+                Link l;
+                
+                System.out.println(link.getID() + " " + link.getURL());
+                
+                for(Element subLink : links){
+                    l=new Link(dal.getNextURLID(), subLink.attr("abs:href"), link.getURL(), 1);
+                    dal.persistLink(l);
+                }
+                link.setDone(0);
+                dal.updateLink(link);
+                
+                while(dal.getNextUndoneLink()!=null){
+                    crawl(dal.getNextUndoneLink(),-1);
+                }
+                
+            } catch (Exception e) {
             }
         }
     }
