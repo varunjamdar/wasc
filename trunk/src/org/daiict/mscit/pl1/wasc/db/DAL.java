@@ -49,6 +49,8 @@ public class DAL {
 
     public boolean persistLink(Link l) {
         try {
+            if(l.getURL().equals(""))
+                return false;
             if (connect()) {
                 //need to implement using prepared statement
                 ps=connection.getConnection().prepareStatement("INSERT INTO links (ID,URL,ParentURL,Done) VALUES(?,?,?,?)");

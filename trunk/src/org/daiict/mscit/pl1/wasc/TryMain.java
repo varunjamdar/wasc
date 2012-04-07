@@ -18,7 +18,7 @@ public class TryMain {
     public static void main(String[] args) {
         
         Crawler crawler=new Crawler();
-        crawler.setBaseURL("http://www.google.com");
+        crawler.setBaseURL("http://www.twitter.com");
         crawler.crawl();
         
     }
