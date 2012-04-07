@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author VJ
  */
 public class Crawler {
-    
+
     private Link baseLink;
     private DAL dal;
 
@@ -33,7 +33,7 @@ public class Crawler {
     }
 
     public void setBaseURL(String URL) {
-        baseLink=new Link(dal.getNextURLID(), URL, "", 0);
+        baseLink = new Link(dal.getNextURLID(), URL, "", 0);
         dal.persistLink(baseLink);
     }
 
@@ -42,38 +42,41 @@ public class Crawler {
     }
 
     public void crawl(Link URL) {
-        crawl(URL, -1);
+        crawl(URL, 2);
     }
 
     public void crawl(Link link, int depth) {
-        if (depth < 0) {
-            try {
-                if(link.getURL().contains((new String("orkut")).subSequence(0,4)))
-                    return;
-                if(link.getURL().contains((new String("facebook")).subSequence(0,4)))
-                    return;
-                if(link.getURL().contains((new String("twitter")).subSequence(0,4)))
-                    return;
-                
-                Document doc = Jsoup.connect(link.getURL()).get();
-                Elements links = doc.select("a[href]");
-                Link l;
-                
-                System.out.println(link.getID() + " " + link.getURL());
-                
-                for(Element subLink : links){
-                    l=new Link(dal.getNextURLID(), subLink.attr("abs:href"), link.getURL(), 1);
-                    dal.persistLink(l);
-                }
-                link.setDone(0);
-                dal.updateLink(link);
-                
-                while(dal.getNextUndoneLink()!=null){
-                    crawl(dal.getNextUndoneLink(),-1);
-                }
-                
-            } catch (Exception e) {
+
+        try {
+            if (link.getURL().contains((new String("orkut")).subSequence(0, 4))) {
+                return;
             }
+            if (link.getURL().contains((new String("facebook")).subSequence(0, 4))) {
+                return;
+            }
+            if (link.getURL().contains((new String("twitter")).subSequence(0, 4))) {
+                return;
+            }
+
+            Document doc = Jsoup.connect(link.getURL()).get();
+            Elements links = doc.select("a[href]");
+            Link l;
+
+            System.out.println(link.getID() + " " + link.getURL());
+
+            for (Element subLink : links) {
+                l = new Link(dal.getNextURLID(), subLink.attr("abs:href"), link.getURL(), 1);
+                dal.persistLink(l);
+            }
+            link.setDone(0);
+            dal.updateLink(link);
+
+            while (dal.getNextUndoneLink() != null) {
+                crawl(dal.getNextUndoneLink(), --depth);
+            }
+
+        } catch (Exception e) {
         }
+
     }
 }
