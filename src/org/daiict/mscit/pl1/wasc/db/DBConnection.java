@@ -107,7 +107,8 @@ public class DBConnection {
             dbCon.close();
             retval = true;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            //JOptionPane.showMessageDialog(null, e.getMessage());
+            System.out.println("Error in DBConnection : "+e.getMessage());
         }
         return retval;
     }
