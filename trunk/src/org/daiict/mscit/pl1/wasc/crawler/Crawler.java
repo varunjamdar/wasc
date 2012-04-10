@@ -4,6 +4,8 @@
  */
 package org.daiict.mscit.pl1.wasc.crawler;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.daiict.mscit.pl1.wasc.db.DAL;
 import org.daiict.mscit.pl1.wasc.entities.Link;
 import org.jsoup.Jsoup;
@@ -43,38 +45,39 @@ public class Crawler {
 
     public void crawl(Link link, int depth) {
         boolean result;
+        List<Link> childNodes=new ArrayList<Link>();
+        
+        if (depth > 0) {
+            try {
+                 /* if (link.getURL().contains((new String("orkut")).subSequence(0, 4))) { return; } if (link.getURL().contains((new String("facebook")).subSequence(0, 4))) { return; } if(link.getURL().contains((new String("twitter")).subSequence(0,4))) { return;} */
 
-        try {
-            /*
-             * if (link.getURL().contains((new String("orkut")).subSequence(0,
-             * 4))) { return; } if (link.getURL().contains((new
-             * String("facebook")).subSequence(0, 4))) { return; } if
-             * (link.getURL().contains((new String("twitter")).subSequence(0,
-             * 4))) { return;
+                Document doc = Jsoup.connect(link.getURL()).get();
+                Elements links = doc.select("a[href]");
+                Link l;
+
+                System.out.println(link.getID() + " " + link.getURL());
+
+                int counter = 0;
+
+                for (Element subLink : links) {
+                    l = new Link(dal.getNextURLID(), subLink.attr("abs:href"), link.getURL(), 1);
+                    result = dal.persistLink(l);
+                    childNodes.add(l);
+                }
+                link.setDone(0);
+                dal.updateLink(link);
+                
+                
+                depth--;
+                for(Link ll : childNodes){
+                    crawl(ll, depth);
+                }
+                
+            } catch (Exception e) {
+                
             }
-             */
-
-            Document doc = Jsoup.connect(link.getURL()).get();
-            Elements links = doc.select("a[href]");
-            Link l;
-
-            System.out.println(link.getID() + " " + link.getURL());
-
-            int counter = 0;
-
-            for (Element subLink : links) {
-                l = new Link(dal.getNextURLID(), subLink.attr("abs:href"), link.getURL(), 1);
-                result = dal.persistLink(l);
-            }
-            link.setDone(0);
-            dal.updateLink(link);
-
-            while (dal.getNextUndoneLink() != null) {
-                crawl(dal.getNextUndoneLink(), --depth);
-            }
-
-        } catch (Exception e) {
         }
-
+        else
+            return;
     }
 }

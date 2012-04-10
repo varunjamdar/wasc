@@ -32,7 +32,7 @@ public class DAL {
             if (connect()) {
                 resultset = connection.customQuery("Select max(ID) from links");
                 if (resultset.next()) {
-                    id = (resultset.getInt(1) == 0 ? 1 : resultset.getInt(1));
+                    id = (resultset.getInt(1) == 0 ? 0 : resultset.getInt(1));
                     id++;
                 } else {
                     id = 1;
@@ -64,6 +64,7 @@ public class DAL {
                 //boolean result= connection.executeQuery("INSERT INTO links (ID,URL,ParentURL,Done) VALUES(" + l.getID() + ",'" + l.getURL() + "','" + l.getParentURL() + "'," + l.getDone() + ")");
                 connection.disconnect();
                 //return result;
+                return true;
             } else {
                 return false;
             }
