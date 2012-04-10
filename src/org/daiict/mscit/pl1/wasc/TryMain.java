@@ -20,6 +20,5 @@ public class TryMain {
         Crawler crawler=new Crawler();
         crawler.setBaseURL("http://www.twitter.com");
         crawler.crawl();
-        
     }
 }
