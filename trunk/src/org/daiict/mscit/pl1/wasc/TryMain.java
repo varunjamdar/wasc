@@ -14,8 +14,10 @@ public class TryMain {
 
     public static void main(String[] args) {
         
-        Crawler crawler=new Crawler();
+        /*Crawler crawler=new Crawler();
         crawler.setBaseURL("http://placement.daiict.ac.in");
-        crawler.crawl();
+        crawler.crawl();*/
+        
+        Crawler.displayForm("https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/ca/&ss=1&scc=1&ltmpl=default&ltmplcache=2");
     }
 }
