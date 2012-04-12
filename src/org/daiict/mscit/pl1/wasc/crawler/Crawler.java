@@ -4,11 +4,18 @@
  */
 package org.daiict.mscit.pl1.wasc.crawler;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.daiict.mscit.pl1.wasc.db.DAL;
 import org.daiict.mscit.pl1.wasc.entities.Link;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.helper.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -45,11 +52,11 @@ public class Crawler {
 
     public void crawl(Link link, int depth) {
         boolean result;
-        List<Link> childNodes=new ArrayList<Link>();
-        
+        List<Link> childNodes = new ArrayList<Link>();
+
         if (depth > 0) {
             try {
-                 /* if (link.getURL().contains((new String("orkut")).subSequence(0, 4))) { return; } if (link.getURL().contains((new String("facebook")).subSequence(0, 4))) { return; } if(link.getURL().contains((new String("twitter")).subSequence(0,4))) { return;} */
+                /* if (link.getURL().contains((new String("orkut")).subSequence(0, 4))) { return; } if (link.getURL().contains((new String("facebook")).subSequence(0, 4))) { return; } if(link.getURL().contains((new String("twitter")).subSequence(0,4))) { return;} */
 
                 Document doc = Jsoup.connect(link.getURL()).get();
                 Elements links = doc.select("a[href]");
@@ -66,18 +73,47 @@ public class Crawler {
                 }
                 link.setDone(0);
                 dal.updateLink(link);
-                
-                
+
+
                 depth--;
-                for(Link ll : childNodes){
+                for (Link ll : childNodes) {
                     crawl(ll, depth);
                 }
-                
+
             } catch (Exception e) {
-                
             }
-        }
-        else
+        } else {
             return;
+        }
+    }
+
+    public static void displayForm(String url) {
+        try {
+            Document doc = Jsoup.connect(url).get();
+
+            Elements hidden = doc.select("input[type=hidden]");
+
+            Elements forms = doc.select("form[action]");
+            Elements textboxes = null;
+            for (Element e : forms) {
+                System.out.println(e.attr("abs:action"));
+                textboxes = e.getElementsByAttributeValue("type", "text");
+                textboxes.addAll(e.getElementsByAttributeValue("type", "password"));
+                for (Element child : textboxes) {
+                    System.out.println(child.toString());
+                }
+            }
+
+            //Document responseDoc = Jsoup.connect(url).ignoreHttpErrors(true).ignoreContentType(true).data("", "").post();
+            //responseDoc.toString();
+            
+            Connection con=Jsoup.connect(url).ignoreContentType(true).ignoreHttpErrors(true);
+            
+            for(Element e1:hidden){
+                con=con.data(e1.attr("name"), e1.attr("value"));
+            }
+
+        } catch (IOException ex) {
+        }
     }
 }
