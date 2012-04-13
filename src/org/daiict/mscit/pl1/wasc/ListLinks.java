@@ -4,9 +4,9 @@
  */
 /**
  *
- * @author SYS
+ * @author VJ
  */
-package org.daiict.mscit.pl1.WASC;
+package org.daiict.mscit.pl1.wasc;
 
 import org.daiict.mscit.pl1.wasc.db.DBConnection;
 import org.jsoup.Jsoup;

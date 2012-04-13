@@ -5,7 +5,6 @@
 package org.daiict.mscit.pl1.wasc.db;
 
 import java.sql.*;
-import javax.swing.JOptionPane;
 
 /**
  *

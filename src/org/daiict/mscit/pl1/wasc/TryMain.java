@@ -18,6 +18,7 @@ public class TryMain {
         crawler.setBaseURL("http://placement.daiict.ac.in");
         crawler.crawl();*/
         
-        Crawler.displayForm("https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/ca/&ss=1&scc=1&ltmpl=default&ltmplcache=2");
+        //Crawler.displayForm("https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/ca/&ss=1&scc=1&ltmpl=default&ltmplcache=2");
+        Crawler.displayForm("http://localhost:8084/TargetApp/index.jsp");
     }
 }
