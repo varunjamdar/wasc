@@ -8,7 +8,7 @@ import java.sql.*;
 
 /**
  *
- * @author ankur
+ * @author ankur, VJ
  */
 public class DBConnection {
 
