@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.daiict.mscit.pl1.wasc.db.DAL;
 import org.daiict.mscit.pl1.wasc.entities.Link;
+import org.daiict.mscit.pl1.wasc.entities.LinkStore;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.HttpConnection;
@@ -24,6 +25,15 @@ public class Crawler {
 
     private Link baseLink;
     private DAL dal;
+    private LinkStore linkStore=null;
+
+    public LinkStore getLinkStore() {
+        return linkStore;
+    }
+
+    public void setLinkStore(LinkStore linkStore) {
+        this.linkStore = linkStore;
+    }
 
     public Crawler() {
         dal = new DAL();
@@ -48,7 +58,7 @@ public class Crawler {
 
     public void crawl(Link link, int depth) {
         boolean result;
-        List<Link> childNodes = new ArrayList<Link>();
+        //List<Link> childNodes = new ArrayList<Link>();
 
         if (depth > 0) {
             try {
@@ -65,14 +75,16 @@ public class Crawler {
                 for (Element subLink : links) {
                     l = new Link(dal.getNextURLID(), subLink.attr("abs:href"), link.getURL(), 1);
                     result = dal.persistLink(l);
-                    childNodes.add(l);
+                    linkStore.getStore().put(l.getID(), l);
+                    //childNodes.add(l);
                 }
                 link.setDone(0);
                 dal.updateLink(link);
 
 
                 depth--;
-                for (Link ll : childNodes) {
+                //for (Link ll : childNodes) {
+                for(Link ll : linkStore.getStore().values()){
                     crawl(ll, depth);
                 }
 
