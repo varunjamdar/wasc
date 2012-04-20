@@ -4,7 +4,9 @@
  */
 package org.daiict.mscit.pl1.wasc.security;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.daiict.mscit.pl1.wasc.entities.*;
 import org.jsoup.Connection;
@@ -31,14 +33,14 @@ public class SQLInjector {
     //public static boolean 
     
     private LinkStore linkStore=null;
-    private Map<Integer,Boolean> Report=null;
+    private List<Report> Report=null;
     
     public SQLInjector(LinkStore linkstore){
         this.linkStore=linkstore;
-        this.Report=new HashMap<Integer, Boolean>();
+        this.Report=new ArrayList<Report>();
     }
     
-    public boolean test(){
+    public boolean testAll(){
         boolean result=false;
         
         for(Link l: linkStore.getStore().values()){
@@ -139,12 +141,28 @@ public class SQLInjector {
                 
                 HttpConnection.Response res=(HttpConnection.Response)con.execute();
             
+                Report r=new Report(link.getID());
             int statusCode=res.statusCode();
+            switch(statusCode){
+                case 200:
+                    r.setReport("Login SQL Injection Successful.\n");
+                    
+                    break;
+                default:
+                    r.setReport("Login SQL Injection Unsuccessful.\n");
+                    break;
+            }
+            this.Report.add(r);
+            
             Document responseDoc=res.parse();
             System.out.println("Status Code : " + statusCode);
             //System.out.println(responseDoc.toString());
             
             return (statusCode==200?true:false); 
+            }
+            
+            else{// its a registration form..
+                
             }
             
         }catch(Exception ex){
