@@ -5,8 +5,6 @@
 package org.daiict.mscit.pl1.wasc.crawler;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.daiict.mscit.pl1.wasc.db.DAL;
 import org.daiict.mscit.pl1.wasc.entities.Link;
 import org.daiict.mscit.pl1.wasc.entities.LinkStore;
@@ -45,6 +43,7 @@ public class Crawler {
 
     public void setBaseURL(String URL) {
         baseLink = new Link(dal.getNextURLID(), URL, "", 0);
+        linkStore.getStore().put(baseLink.getID(), baseLink);
         boolean result = dal.persistLink(baseLink);
     }
 
@@ -69,8 +68,6 @@ public class Crawler {
                 Link l;
 
                 System.out.println(link.getID() + " " + link.getURL());
-
-                int counter = 0;
 
                 for (Element subLink : links) {
                     l = new Link(dal.getNextURLID(), subLink.attr("abs:href"), link.getURL(), 1);
@@ -97,6 +94,7 @@ public class Crawler {
 
     public static void displayForm(String url) {
         try {
+            
             Document doc = Jsoup.connect(url).get();
             String submitURL="";
             
@@ -130,7 +128,7 @@ public class Crawler {
             Document responseDoc=res.parse();
             System.out.println("Status Code : " + statusCode);
             System.out.println(responseDoc.toString());
-
+                        
         } catch (IOException ex) {
         }
     }
