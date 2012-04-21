@@ -28,12 +28,14 @@ public class TryMain {
         //Crawler.displayForm("https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/ca/&ss=1&scc=1&ltmpl=default&ltmplcache=2");
         //Crawler.displayForm("http://localhost:8080/TargetApp/register.jsp");
         
-        //SQLInjector injector=new SQLInjector(crawler.getLinkStore());
-        //if(injector.testAll()){
-          //  for(Report r : injector.getReport()){
-                //System.out.println(injector.getLinkStore().getStore().get(r.getLinkID()).getURL());
-                //System.out.println(r.getReport());
-            //}
-        //}
+        SQLInjector injector=new SQLInjector(crawler.getLinkStore());
+        //injector.dummmy((Link)injector.getLinkStore().getStore().values().toArray()[0]);
+        if(injector.testAll()){
+            for(Report r : injector.getReport()){
+                System.out.println(injector.getLinkStore().getStore().get(r.getLinkID()).getURL());
+                System.out.println(r.getReport());
+            }
+        }
+        System.out.println("let us see...");
     }
 }
